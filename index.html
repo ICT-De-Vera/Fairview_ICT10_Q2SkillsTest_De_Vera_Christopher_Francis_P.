@@ -9,14 +9,6 @@
 </head>
 <body>
     <style>
-        :root {
-            color-scheme: dark;
-            --ink: #eaf5ff;
-            --muted: #a9c5d8;
-            --cyan: #31d9e8;
-            --yellow: #ffe15a;
-            --panel: rgba(8, 29, 52, 0.88);
-        }
         * {
             box-sizing: border-box;
         }
@@ -24,53 +16,27 @@
             font-family: Arial, sans-serif;
             min-height: 100vh;
             margin: 0;
-            padding: clamp(24px, 6vw, 72px) 20px;
-            color: var(--ink);
+            padding: 48px 20px;
+            color: #222;
             background:
-                radial-gradient(circle at 85% 15%, rgba(49, 217, 232, .18), transparent 25%),
-                radial-gradient(circle at 12% 90%, rgba(255, 225, 90, .12), transparent 28%),
-                #07182b;
-            background-image:
-                radial-gradient(circle at 85% 15%, rgba(49, 217, 232, .18), transparent 25%),
-                radial-gradient(circle at 12% 90%, rgba(255, 225, 90, .12), transparent 28%),
-                linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-            background-size: auto, auto, 32px 32px, 32px 32px;
+                radial-gradient(circle at 12% 18%, rgba(255, 215, 72, .22) 0 7%, transparent 7.5%),
+                radial-gradient(circle at 88% 78%, rgba(47, 205, 220, .2) 0 9%, transparent 9.5%),
+                linear-gradient(135deg, #123f70, #087e9d 55%, #163b68);
         }
         h1 {
-            max-width: 720px;
-            margin: 0 auto 10px;
-            color: var(--yellow);
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            line-height: 1.05;
-            letter-spacing: -.04em;
-            text-shadow: 0 3px 0 #8e6e10;
-        }
-        h1::before {
-            content: "SCIENCE LAB / 01";
-            display: block;
-            margin-bottom: 12px;
-            color: var(--cyan);
-            font-size: .75rem;
-            letter-spacing: .2em;
-            text-shadow: none;
-        }
-        h1 + .card::before {
-            content: "Explore the building blocks of everything.";
-            display: block;
-            margin-bottom: 20px;
-            color: var(--muted);
-            font-size: 1rem;
+            max-width: 640px;
+            margin: 0 auto 20px;
+            color: #183b5b;
+            font-size: 2rem;
         }
         .card {
-            max-width: 720px;
+            max-width: 640px;
             margin: 24px auto 0;
-            padding: clamp(20px, 4vw, 32px);
-            border: 1px solid rgba(49, 217, 232, .35);
-            border-radius: 18px;
-            background: var(--panel);
-            box-shadow: 0 18px 50px rgba(0, 0, 0, .28), inset 0 1px rgba(255,255,255,.06);
-            backdrop-filter: blur(10px);
+            padding: 24px;
+            border: 2px solid #f4c542;
+            border-radius: 14px;
+            background: #fff9e8;
+            box-shadow: 0 7px 0 rgba(5, 41, 74, .22);
         }
         .card-body {
             display: flex;
@@ -80,46 +46,47 @@
             min-width: 0;
             flex: 1;
             padding: 14px 16px;
-            border: 1px solid #42627a;
-            border-radius: 10px;
+            border: 1px solid #b8c4ce;
+            border-radius: 5px;
             outline: none;
-            background: #061426;
-            color: var(--ink);
+            background: #fff;
+            color: #222;
             font: inherit;
         }
         input::placeholder {
-            color: #7893a8;
+            color: #737d86;
         }
         input:focus {
-            border-color: var(--cyan);
-            box-shadow: 0 0 0 3px rgba(49, 217, 232, .16);
+            border-color: #356b9a;
         }
         button {
             padding: 14px 20px;
             border: 0;
-            border-radius: 10px;
-            background: var(--yellow);
-            color: #182334;
+            border-radius: 5px;
+            background: #285d87;
+            color: #fff;
             font: inherit;
-            font-weight: 800;
+            font-weight: 600;
             cursor: pointer;
-            transition: transform .18s ease, box-shadow .18s ease;
         }
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 7px 20px rgba(255, 225, 90, .2);
+            background: #1d496d;
         }
         #output {
             display: grid;
-            grid-template-columns: max-content 1fr;
-            gap: 14px 10px;
-            color: var(--muted);
+            gap: 12px;
+            color: #444;
+        }
+        .result-row {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 10px;
         }
         #output strong {
-            color: var(--cyan);
+            color: #285d87;
         }
         #output span {
-            color: var(--ink);
+            color: #222;
         }
         @media (max-width: 520px) {
             .card-body {
@@ -130,19 +97,19 @@
             }
         }
     </style>
-    <script type="py" src="main.py"></script>
     <h1>Periodic Table Look Up</h1>
     <div class="card">
         <div class="card-body">
             <input type="text" id="elementInput" placeholder="Enter element name or symbol">
-            <button onclick="lookupElement()">Look Up</button>
+            <button py-click="lookupElement">Look Up</button>
         </div>
     </div>
     <div id="output" class="card">
-        <strong>Element:</strong> <span id="elementName"></span><br>
-        <strong>Atomic Number:</strong> <span id="atomicNumber"></span><br>
-        <strong>Atomic Mass:</strong> <span id="atomicMass"></span><br>
-        <strong>Element Symbol:</strong> <span id="elementSymbol"></span><br>
+        <div class="result-row"><strong>Element:</strong><span id="elementName"></span></div>
+        <div class="result-row"><strong>Atomic Number:</strong><span id="atomicNumber"></span></div>
+        <div class="result-row"><strong>Atomic Mass:</strong><span id="atomicMass"></span></div>
+        <div class="result-row"><strong>Element Symbol:</strong><span id="elementSymbol"></span></div>
     </div>
+    <script type="py" src="main.py"></script>
 </body>
 </html>
