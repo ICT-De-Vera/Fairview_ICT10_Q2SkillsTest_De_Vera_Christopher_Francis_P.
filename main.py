@@ -20,18 +20,23 @@ Non_metals = {
     "Kr": ("krypton", 36, 83.798),
     "Xe": ("xenon", 54, 131.293),
     "Rn": ("radon", 86, 222),
-    "Og": ("oganesson", 118, 294)
+    "Og": ("oganesson", 118, 294),
 }
 
-def lookupelement():
-    symbol = document.getElementById("elementInput").value.strip()
-    name, atomic_number, atomic_mass = Non_metals.get(
-        symbol, ("Unknown element", "N/A", "N/A")
+Element_lookup = {
+    query: (name, atomic_number, atomic_mass, symbol)
+    for symbol, (name, atomic_number, atomic_mass) in Non_metals.items()
+    for query in (symbol.lower(), name.lower())
+}
+
+def lookupElement(e):
+    raw_input = document.getElementById("elementInput").value.strip()
+    name, atomic_number, atomic_mass, symbol = Element_lookup.get(
+        raw_input.lower(),
+        ("Unknown element", "N/A", "N/A", raw_input.upper()),
     )
 
-    display(f"Element: {name}", target="elementName")
-    display(f"Atomic Number: {atomic_number}", target="atomicNumber")
-    display(f"Atomic Mass: {atomic_mass}", target="atomicMass")
-    display(f"Symbol: {symbol}", target="elementSymbol")
-
-    
+    document.getElementById("elementName").textContent = name
+    document.getElementById("atomicNumber").textContent = str(atomic_number)
+    document.getElementById("atomicMass").textContent = str(atomic_mass)
+    document.getElementById("elementSymbol").textContent = symbol
